@@ -1,3 +1,4 @@
+import 'package:contacts_app/add_contact.dart';
 import 'package:contacts_app/model/contact_model.dart';
 import 'package:contacts_app/network/resource.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ void main() {
 }
 
 class ContactsApp extends StatelessWidget {
+
   const ContactsApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -18,7 +20,15 @@ class ContactsApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const ContactsListPage());
+        initialRoute: '/',
+        routes: {
+
+          '/': (context) => const ContactsListPage(),
+
+          '/addContact': (context) => AddContactPage(contact: Contact.empty()),
+        },
+        //home: const ContactsListPage());
+    );
   }
 }
 
@@ -49,12 +59,15 @@ class _ContactsListPageState extends State<ContactsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Contacts App'),
+        title: const Text('Contacts List'),
       ),
       body: ListView.builder(
           itemCount: _contactList.length, itemBuilder: _listViewItemBuilder),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+
+          Navigator.pushNamed(context, '/addContact');
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
@@ -75,7 +88,11 @@ class _ContactsListPageState extends State<ContactsListPage> {
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
               ListTile(
                 onTap: () {
-                  print("on tap");
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddContactPage(contact: _contactList[index])),
+                  );
                 },
                 leading: loadImage(contact.profileImageUrl),
                 title: Text(

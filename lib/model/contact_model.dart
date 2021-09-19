@@ -2,8 +2,6 @@ import 'package:contacts_app/network/resource.dart';
 import 'package:contacts_app/network/api_constants.dart';
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-
 class ContactModel {
   String? _status = null;
 
@@ -45,6 +43,17 @@ class Contact {
 
   String profileImageUrl = "";
 
+  Contact.empty() {
+    id = 0;
+    firstName = "";
+    middleName = "";
+    lastName = "";
+    address = "";
+    mobileNo = "";
+    emailId = "";
+    profileImageUrl = "";
+  }
+
   Contact(
       {required this.id,
       required this.firstName,
@@ -65,5 +74,10 @@ class Contact {
         mobileNo: json['mobile_no'].toString(),
         emailId: json['email_id'],
         profileImageUrl: json['profile_image'] ?? placeholderImageAssetUrl);
+  }
+  @override
+  String toString() {
+    // TODO: implement toString
+    return '${firstName + middleName + lastName + emailId + mobileNo + address} ';
   }
 }
